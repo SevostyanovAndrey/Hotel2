@@ -30,8 +30,8 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Email</th>
-        <th>City</th>
+        <th>text</th>
+        <th>date</th>
         <th>Actions</th>
         </th>
     </tr>
@@ -46,12 +46,12 @@
         <label for="name">Name</label>
     </div>
     <div class="inputGroup">
-        <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="email" name="email">
-        <label for="name">Email</label>
+        <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="text" name="text">
+        <label for="name">text</label>
     </div>
     <div class="inputGroup">
-        <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="city" name="city">
-        <label for="name">city</label>
+        <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="date" name="date">
+        <label for="name">date</label>
     </div>
     <button type="submit" class="btnSubmitCustom mb-5">
         Отправить!
@@ -92,8 +92,8 @@
             'columns': [
                 {data: 'id'},
                 {data: 'name'},
-                {data: 'email'},
-                {data: 'city'},
+                {data: 'text'},
+                {data: 'date'},
                 { data: 'actions', orderable: false, searchable: false }
             ]
         });
@@ -101,8 +101,8 @@
         $('.btnSubmitCustom').click(function () {
             var formData = {
                 name: $('#name').val(),
-                email: $('#email').val(),
-                city: $('#city').val()
+                text: $('#text').val(),
+                date: $('#date').val()
             };
 
             $.ajax({

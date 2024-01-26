@@ -18,8 +18,8 @@ class UsersController extends BaseController
 
         $data = [
             'name' => $request->getPost('name'),
-            'email' => $request->getPost('email'),
-            'city' => $request->getPost('city')
+            'text' => $request->getPost('text'),
+            'date' => $request->getPost('date')
         ];
 
         $usersModel = new Users();
@@ -58,14 +58,14 @@ class UsersController extends BaseController
 
         $totalRecordwithFilter = $users->select('id')
             ->orLike('name', $searchValue)
-            ->orLike('email', $searchValue)
-            ->orLike('city', $searchValue)
+            ->orLike('text', $searchValue)
+            ->orLike('date', $searchValue)
             ->countAllResults();
 
         $records = $users->select('*')
             ->orLike('name', $searchValue)
-            ->orLike('email', $searchValue)
-            ->orLike('city', $searchValue)
+            ->orLike('text', $searchValue)
+            ->orLike('date', $searchValue)
             ->orderBy($columnName, $columnSortOrder)
             ->findAll($rowperpage, $start);
 
@@ -76,8 +76,8 @@ class UsersController extends BaseController
             $data[] = array(
                 "id" => $record['id'],
                 "name" => $record['name'],
-                "email" => $record['email'],
-                "city" => $record['city'],
+                "text" => $record['text'],
+                "date" => $record['date'],
                 "actions" => "<button class='btnDelete' value='" . $record['id'] . "'>&#10008;</button>"
             );
         }
