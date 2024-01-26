@@ -28,7 +28,9 @@
         <th>Name</th>
         <th>Email</th>
         <th>City</th>
-        <th>Actions</th> </tr>
+        <th>Actions</th>
+        </th>
+    </tr>
     </thead>
     <tbody>
     </tbody>
@@ -69,20 +71,17 @@
                 'url': "<?=site_url('users/getUsers')?>",
                 'data': function (data) {
                     // CSRF Hash
-                    var csrfName = $('.txt_csrfname').attr('name'); // CSRF Token name
-                    var csrfHash = $('.txt_csrfname').val(); // CSRF hash
+                    var csrfName = $('.txt_csrfname').attr('name');
+                    var csrfHash = $('.txt_csrfname').val();
 
                     return {
                         data: data,
-                        [csrfName]: csrfHash // CSRF Token
+                        [csrfName]: csrfHash
                     };
                 },
                 dataSrc: function (data) {
-
-                    // Update token hash
                     $('.txt_csrfname').val(data.token);
 
-                    // Datatable data
                     return data.aaData;
                 }
             },
@@ -91,6 +90,7 @@
                 {data: 'name'},
                 {data: 'email'},
                 {data: 'city'},
+                { data: 'actions', orderable: false, searchable: false }
             ]
         });
 
@@ -121,6 +121,26 @@
             return false; // Предотвратите стандартную отправку формы
         });
 
+        $(document).on('click', '.btnDelete', function() {
+            var buttonValue = $(this).val();
+
+            var url = "<?= site_url('users/delete/') ?>" + buttonValue;
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === 'success') {
+
+                        $('#userTable').DataTable().ajax.reload();
+                        alert(response.message);
+                    } else {
+                        console.error(response.message);
+                    }
+                }
+            });
+        });
 
     });
 

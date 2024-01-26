@@ -76,7 +76,8 @@ class UsersController extends BaseController
                 "id"=>$record['id'],
                 "name"=>$record['name'],
                 "email"=>$record['email'],
-                "city"=>$record['city']
+                "city"=>$record['city'],
+                "actions" => "<button class='btnDelete' value='" . $record['id'] . "'>Delete</button>"
             );
         }
 
@@ -91,6 +92,19 @@ class UsersController extends BaseController
 
         return $this->response->setJSON($response);
     }
+    public function delete($userId)
+    {
+        $request = service('request');
 
+        $usersModel = new Users();
 
+        $usersModel->delete($userId);
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Запись успешно удалена'
+        ];
+
+        return $this->response->setJSON($response);
+    }
 }
