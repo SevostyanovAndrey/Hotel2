@@ -7,4 +7,5 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'UsersController::index');
 $routes->post('users/getUsers', 'UsersController::getUsers');
-//$routes->post('store', 'UsersController::store');
+$routes->post('users/addUser', 'UsersController::addUser');
+

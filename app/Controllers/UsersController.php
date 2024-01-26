@@ -16,9 +16,9 @@ class UsersController extends BaseController
         $request = service('request');
 
         $data = [
-            'email' => $request->getPost('gmail'),
-            'comment' => $request->getPost('comment'),
-            'date' => $request->getPost('date')
+            'name' => $request->getPost('name'),
+            'email' => $request->getPost('email'),
+            'city' => $request->getPost('city')
         ];
 
         $usersModel = new Users();
@@ -72,12 +72,12 @@ class UsersController extends BaseController
 
         foreach($records as $record ){
 
-            $data[] = array( 
+            $data[] = array(
                 "id"=>$record['id'],
                 "name"=>$record['name'],
                 "email"=>$record['email'],
                 "city"=>$record['city']
-            ); 
+            );
         }
 
         ## Response
@@ -91,5 +91,6 @@ class UsersController extends BaseController
 
         return $this->response->setJSON($response);
     }
+
 
 }
