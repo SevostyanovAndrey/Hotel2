@@ -19,45 +19,51 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="col-md-8 offset-md-2" style=" width: 50%; margin-top: 50px">
 
 <!-- CSRF token -->
 <input type="hidden" class="txt_csrfname" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>"/>
+<div >
 
-<!-- Table -->
-<table id='userTable' class='table table-hover'>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>text</th>
-        <th>date</th>
-        <th>Actions</th>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+    <h1 class="txtCustom " style="">Комментарии</h1>
+    <hr class="mb-5 mt-2" style=" border-bottom: 2px solid black">
+    <div style="margin-left: auto;
+    margin-right: auto;">
+        <table id='userTable' class="table table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>text</th>
+                <th>date</th>
+                <th>Actions</th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
-<div style="width: 100%">
-    <div class="inputGroup">
-        <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="name" name="name">
-        <label for="name">Name</label>
+    <div class="col-md-8 offset-md-2"  >
+        <div class="inputGroup" style="min-width: 60%">
+            <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="name" name="name">
+            <label for="name">Email</label>
+        </div>
+        <div class="inputGroup">
+            <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="text" name="text">
+            <label for="name">Комментарий</label>
+        </div>
+        <div class="inputGroup">
+            <input type="date" required="" autocomplete="off" id="date" name="date">
+
+        </div>
+        <button type="submit" class="btnSubmitCustom mb-5">
+            Отправить!
+        </button>
     </div>
-    <div class="inputGroup">
-        <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="text" name="text">
-        <label for="name">text</label>
-    </div>
-    <div class="inputGroup">
-        <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="date" name="date">
-        <label for="name">date</label>
-    </div>
-    <button type="submit" class="btnSubmitCustom mb-5">
-        Отправить!
-    </button>
+
 </div>
-
 <script>
     $(document).ready(function () {
 
@@ -193,5 +199,106 @@
         -o-transform: skewX(-20deg);
         transform: skewX(-20deg);
     }
+    .inputGroup {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 1em 0 1em 0;
+        max-width: 480px;
+        position: relative;
+    }
+
+    .inputGroup input {
+        font-size: 100%;
+        padding: 0.8em;
+        outline: none;
+        border: 2px solid rgb(200, 200, 200);
+        background-color: transparent;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .inputGroup label {
+        font-size: 100%;
+        position: absolute;
+        left: 0;
+        padding: 0.8em;
+        margin-left: 0.5em;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        color: rgb(100, 100, 100);
+    }
+
+    .inputGroup :is(input:focus, input:valid) ~ label {
+        transform: translateY(-50%) scale(.9);
+        margin: 0em;
+        margin-left: 1.3em;
+        padding: 0.4em;
+        background-color: #ffffff;
+    }
+
+    .inputGroup :is(input:focus, input:valid) {
+        border-color: rgb(0, 0, 0);
+    }
+
+    .btnSubmitCustom {
+
+        font-family: inherit;
+        display: inline-block;
+        width: 480px;
+        height: 2.6em;
+        line-height: 2.5em;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid black;
+        transition: color .5s;
+        z-index: 1;
+        font-size: 17px;
+        border-radius: 6px;
+        font-weight: 500;
+        color: black;
+    }
+
+    .btnSubmitCustom:before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        background: #4b9f45;
+        height: 100px;
+        width: 600px;
+        border-radius: 50%;
+    }
+
+    .btnSubmitCustom:hover {
+        color: #102f01;
+    }
+
+    .btnSubmitCustom:before {
+        top: 100%;
+        left: 100%;
+        transition: all .7s;
+    }
+
+    .btnSubmitCustom:hover:before {
+        top: -30px;
+        left: -30px;
+    }
+
+    .btnSubmitCustom:active:before {
+        background: #013804;
+        transition: background 0s;
+    }
+
+    .txtCustom {
+        color: #000000;
+        font-family: inherit;
+        font-weight: 800;
+        position: relative;
+        border: none;
+        background: none;
+        text-transform: uppercase;
+        transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition-duration: 400ms;
+        transition-property: color;
+    }
+
 </style>
 </html>
