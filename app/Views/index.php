@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Commentaries</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -21,10 +20,8 @@
 </head>
 <body class="col-md-8 offset-md-2" style=" width: 50%; margin-top: 50px">
 
-<!-- CSRF token -->
 <input type="hidden" class="txt_csrfname" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>"/>
-<div >
-
+<div>
     <h1 class="txtCustom " style="">Комментарии</h1>
     <hr class="mb-5 mt-2" style=" border-bottom: 2px solid black">
     <div style="margin-left: auto;
@@ -33,10 +30,10 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>text</th>
-                <th>date</th>
-                <th>Actions</th>
+                <th>Почта</th>
+                <th>Комментарий</th>
+                <th>Дата</th>
+                <th>Функции</th>
                 </th>
             </tr>
             </thead>
@@ -45,7 +42,7 @@
         </table>
     </div>
 
-    <div class="col-md-8 offset-md-2"  >
+    <div class="col-md-8 offset-md-2">
         <div class="inputGroup" style="min-width: 60%">
             <input type="text" required="" minlength="5" maxlength="50" autocomplete="off" id="name" name="name">
             <label for="name">Email</label>
@@ -66,7 +63,36 @@
 </div>
 <script>
     $(document).ready(function () {
+        $('#text').on('input', function () {
+            if ($(this).val().length < 1) {
+                $(this).parent('.inputGroup').find('label').text('Комментарий не должен быть пустой');
+            } else {
+                $(this).parent('.inputGroup').find('label').text('Комментарий');
+            }
+        });
 
+        $('#date').on('input', function () {
+            if ($(this).val().length < 1) {
+                $(this).parent('.inputGroup').find('label').text('Выберите дату!');
+            } else {
+                $(this).parent('.inputGroup').find('label').text('Дата');
+            }
+        });
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        $('#name').on('input', function () {
+            if (!emailRegex.test($(this).val())) {
+                $(this).parent('.inputGroup').find('label').text('Введите корректный адрес электронной почты');
+            } else {
+                $(this).parent('.inputGroup').find('label').text('Email');
+            }
+        });
+
+        const requiredFields = [
+            '#name',
+            '#text',
+            '#date'
+        ];
 
         $('#userTable').DataTable({
             "lengthMenu": [3, 6, 12, 24],
@@ -100,11 +126,18 @@
                 {data: 'name'},
                 {data: 'text'},
                 {data: 'date'},
-                { data: 'actions', orderable: false, searchable: false }
+                {data: 'actions', orderable: false, searchable: false}
             ]
         });
 
         $('.btnSubmitCustom').click(function () {
+
+            for (const field of requiredFields) {
+                if (!$(field).val()) {
+                    alert('Пожалуйста, заполните все обязательные поля');
+                    return false;
+                }
+            }
             var formData = {
                 name: $('#name').val(),
                 text: $('#text').val(),
@@ -118,20 +151,17 @@
                 dataType: "json",
                 success: function (response) {
                     if (response.status === 'success') {
-                        // Обновите таблицу DataTables
                         $('#userTable').DataTable().ajax.reload();
-                        // Покажите сообщение об успехе
                         alert(response.message);
                     } else {
-                        // Обработайте ошибку
                         console.error(response.message);
                     }
                 }
             });
-            return false; // Предотвратите стандартную отправку формы
+            return false;
         });
 
-        $(document).on('click', '.btnDelete', function() {
+        $(document).on('click', '.btnDelete', function () {
             var buttonValue = $(this).val();
 
             var url = "<?= site_url('users/delete/') ?>" + buttonValue;
@@ -182,6 +212,7 @@
         -moz-transition: all 0.2s ease-out;
         transition: all 0.2s ease-out;
     }
+
     .btnDelete::before {
         content: '';
         display: block;
@@ -199,6 +230,7 @@
         -o-transform: skewX(-20deg);
         transform: skewX(-20deg);
     }
+
     .inputGroup {
         font-family: 'Segoe UI', sans-serif;
         margin: 1em 0 1em 0;

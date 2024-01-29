@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Models\Users;
 
 class UsersController extends BaseController
@@ -17,18 +16,22 @@ class UsersController extends BaseController
         $request = service('request');
 
         $data = [
-            'name' => $request->getPost('name'),
-            'text' => $request->getPost('text'),
-            'date' => $request->getPost('date')
+            'name' => filter_var($request->getPost('name'), FILTER_SANITIZE_STRING),
+            'text' => filter_var($request->getPost('text'), FILTER_SANITIZE_STRING),
+            'date' => filter_var($request->getPost('date'), FILTER_SANITIZE_STRING),
         ];
 
         $usersModel = new Users();
 
-        $usersModel->insert($data);
-
-        $response = [
+        if ($this->validateData($data, $usersModel->getValidationRules())) {
+            $usersModel->insert($data);
+            $response = [
+                'status' => 'success',
+                'message' => 'Данные успешно добавлены'
+            ];
+        } else $response = [
             'status' => 'success',
-            'message' => 'Данные успешно добавлены'
+            'message' => "Ошибка корректности ввода"
         ];
 
         return $this->response->setJSON($response);
